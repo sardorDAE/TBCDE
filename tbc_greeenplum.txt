@@ -7,6 +7,7 @@ CREATE TABLE customers (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) 
 DISTRIBUTED BY (customer_id);
+
 --2. Products Table
 CREATE TABLE products (
     product_id SERIAL PRIMARY KEY,
@@ -14,8 +15,9 @@ CREATE TABLE products (
     price NUMERIC(10, 2) NOT NULL,
     category VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+) 
 DISTRIBUTED BY (product_id);
+
 --3. Sales Transactions Table
 CREATE TABLE sales_transactions (
     transaction_id SERIAL PRIMARY KEY,
@@ -27,7 +29,8 @@ CREATE TABLE sales_transactions (
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 ) 
-DISTRIBUTED BY (product_id);
+DISTRIBUTED BY (product_id, customer_id);
+
 --4. Shipping Details Table
 CREATE TABLE shipping_details (
     transaction_id INT PRIMARY KEY,
@@ -39,6 +42,7 @@ CREATE TABLE shipping_details (
     FOREIGN KEY (transaction_id) REFERENCES sales_transactions(transaction_id)
 ) 
 DISTRIBUTED BY (transaction_id);
+
 
 
 
